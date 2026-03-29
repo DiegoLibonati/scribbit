@@ -3,7 +3,7 @@ import userEvent from "@testing-library/user-event";
 
 import type { Page } from "@/types/pages";
 
-import { NotesPage } from "@/pages/NotesPage/NotesPage";
+import NotesPage from "@/pages/NotesPage/NotesPage";
 
 import { mocksLocalStorage } from "@tests/__mocks__/localStorage.mock";
 import { mockNote, mockNotes } from "@tests/__mocks__/notes.mock";

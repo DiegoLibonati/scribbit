@@ -4,7 +4,7 @@ import userEvent from "@testing-library/user-event";
 import type { NoteProps } from "@/types/props";
 import type { NoteComponent } from "@/types/components";
 
-import { Note } from "@/components/Note/Note";
+import Note from "@/components/Note/Note";
 
 const renderComponent = (props: NoteProps): NoteComponent => {
   const container = Note(props);

@@ -3,7 +3,7 @@ import type { NoteComponent } from "@/types/components";
 
 import "@/components/Note/Note.css";
 
-export const Note = ({
+const Note = ({
   id,
   children,
   onClickDelete,
@@ -53,3 +53,5 @@ export const Note = ({
 
   return divRoot;
 };
+
+export default Note;

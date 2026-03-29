@@ -4,7 +4,7 @@ import type { Note as NoteT } from "@/types/app";
 import type { Page } from "@/types/pages";
 import type { NoteComponent } from "@/types/components";
 
-import { Note } from "@/components/Note/Note";
+import Note from "@/components/Note/Note";
 
 import { getNotesFromLocalStorage } from "@/helpers/getNotesFromLocalStorage";
 import { setLocalStorage } from "@/helpers/setLocalStorage";
@@ -14,7 +14,7 @@ import { LOCAL_STORAGE_NOTES_KEY } from "@/constants/vars";
 
 import "@/pages/NotesPage/NotesPage.css";
 
-export const NotesPage = (): Page => {
+const NotesPage = (): Page => {
   const main = document.createElement("main") as Page;
   main.className = "notes-page";
 
@@ -171,3 +171,5 @@ export const NotesPage = (): Page => {
 
   return main;
 };
+
+export default NotesPage;
