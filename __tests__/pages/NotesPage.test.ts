@@ -5,7 +5,7 @@ import type { Page } from "@/types/pages";
 
 import NotesPage from "@/pages/NotesPage/NotesPage";
 
-import { mocksLocalStorage } from "@tests/__mocks__/localStorage.mock";
+import { mockLocalStorage } from "@tests/__mocks__/localStorage.mock";
 import { mockNote, mockNotes } from "@tests/__mocks__/notes.mock";
 
 const renderPage = (): Page => {
@@ -24,12 +24,12 @@ const renderPage = (): Page => {
 
 describe("NotesPage", () => {
   beforeEach(() => {
-    mocksLocalStorage.clear();
+    mockLocalStorage.clear();
   });
 
   afterEach(() => {
     document.body.innerHTML = "";
-    mocksLocalStorage.clear();
+    mockLocalStorage.clear();
   });
 
   it("should render the page with correct structure", () => {
@@ -48,7 +48,7 @@ describe("NotesPage", () => {
   });
 
   it("should load and render notes from localStorage", () => {
-    mocksLocalStorage.setItem("notes", JSON.stringify(mockNotes));
+    mockLocalStorage.setItem("notes", JSON.stringify(mockNotes));
 
     renderPage();
 
@@ -85,7 +85,7 @@ describe("NotesPage", () => {
 
     if (btnAddNote) await user.click(btnAddNote);
 
-    const stored = mocksLocalStorage.getItem("notes");
+    const stored = mockLocalStorage.getItem("notes");
     const notes = JSON.parse(stored ?? "[]");
 
     expect(notes).toHaveLength(1);
@@ -97,7 +97,7 @@ describe("NotesPage", () => {
 
   it("should enable editing when edit button is clicked", async () => {
     const user = userEvent.setup();
-    mocksLocalStorage.setItem("notes", JSON.stringify([mockNote]));
+    mockLocalStorage.setItem("notes", JSON.stringify([mockNote]));
 
     renderPage();
 
@@ -111,7 +111,7 @@ describe("NotesPage", () => {
 
   it("should show finish edit button when editing", async () => {
     const user = userEvent.setup();
-    mocksLocalStorage.setItem("notes", JSON.stringify([mockNote]));
+    mockLocalStorage.setItem("notes", JSON.stringify([mockNote]));
 
     renderPage();
 
@@ -124,7 +124,7 @@ describe("NotesPage", () => {
 
   it("should delete note when delete button is clicked", async () => {
     const user = userEvent.setup();
-    mocksLocalStorage.setItem("notes", JSON.stringify(mockNotes));
+    mockLocalStorage.setItem("notes", JSON.stringify(mockNotes));
 
     renderPage();
 
@@ -139,7 +139,7 @@ describe("NotesPage", () => {
 
   it("should update localStorage when note is deleted", async () => {
     const user = userEvent.setup();
-    mocksLocalStorage.setItem("notes", JSON.stringify(mockNotes));
+    mockLocalStorage.setItem("notes", JSON.stringify(mockNotes));
 
     renderPage();
 
@@ -148,7 +148,7 @@ describe("NotesPage", () => {
     });
     await user.click(deleteButtons[0]!);
 
-    const stored = mocksLocalStorage.getItem("notes");
+    const stored = mockLocalStorage.getItem("notes");
     const notes = JSON.parse(stored ?? "[]");
 
     expect(notes).toHaveLength(1);
@@ -156,7 +156,7 @@ describe("NotesPage", () => {
   });
 
   it("should cleanup notes and buttons on page cleanup", () => {
-    mocksLocalStorage.setItem("notes", JSON.stringify(mockNotes));
+    mockLocalStorage.setItem("notes", JSON.stringify(mockNotes));
 
     const page = renderPage();
 

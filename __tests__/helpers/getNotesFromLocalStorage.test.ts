@@ -1,19 +1,19 @@
 import { getNotesFromLocalStorage } from "@/helpers/getNotesFromLocalStorage";
 
-import { mocksLocalStorage } from "@tests/__mocks__/localStorage.mock";
+import { mockLocalStorage } from "@tests/__mocks__/localStorage.mock";
 import { mockNotes } from "@tests/__mocks__/notes.mock";
 
 describe("getNotesFromLocalStorage", () => {
   beforeEach(() => {
-    mocksLocalStorage.clear();
+    mockLocalStorage.clear();
   });
 
   afterEach(() => {
-    mocksLocalStorage.clear();
+    mockLocalStorage.clear();
   });
 
   it("should return notes from localStorage", () => {
-    mocksLocalStorage.setItem("notes", JSON.stringify(mockNotes));
+    mockLocalStorage.setItem("notes", JSON.stringify(mockNotes));
 
     const result = getNotesFromLocalStorage();
 
@@ -27,7 +27,7 @@ describe("getNotesFromLocalStorage", () => {
   });
 
   it("should return empty array when localStorage has null", () => {
-    mocksLocalStorage.setItem("notes", "null");
+    mockLocalStorage.setItem("notes", "null");
 
     const result = getNotesFromLocalStorage();
 
