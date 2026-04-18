@@ -1,108 +1,139 @@
 import { setAlert, clearAlert } from "@/helpers/setAlert";
 
+const setupAlertElement = (): HTMLHeadingElement => {
+  const alertH2 = document.createElement("h2");
+  alertH2.className = "header__alert";
+  document.body.appendChild(alertH2);
+  return alertH2;
+};
+
 describe("setAlert", () => {
   beforeEach(() => {
     jest.useFakeTimers();
-
-    const alertElement = document.createElement("h2");
-    alertElement.className = "header__alert";
-    document.body.appendChild(alertElement);
   });
 
   afterEach(() => {
+    clearAlert();
     document.body.innerHTML = "";
-    jest.clearAllTimers();
     jest.useRealTimers();
   });
 
-  it("should display alert message", () => {
-    setAlert("Test message");
+  describe("when .header__alert element exists", () => {
+    it("should set the message as text content", () => {
+      setupAlertElement();
+      setAlert("Note saved ✅");
+      expect(document.querySelector(".header__alert")).toHaveTextContent(
+        "Note saved ✅"
+      );
+    });
 
-    const alertH2 =
-      document.querySelector<HTMLHeadingElement>(".header__alert");
-    expect(alertH2?.textContent).toBe("Test message");
-    expect(alertH2).toHaveClass("header__alert--show");
+    it("should add the show class", () => {
+      setupAlertElement();
+      setAlert("Note saved ✅");
+      expect(document.querySelector(".header__alert")).toHaveClass(
+        "header__alert--show"
+      );
+    });
+
+    it("should clear the message after 1000ms", () => {
+      setupAlertElement();
+      setAlert("Note saved ✅");
+      jest.advanceTimersByTime(1000);
+      expect(document.querySelector(".header__alert")).toHaveTextContent("");
+    });
+
+    it("should remove the show class after 1000ms", () => {
+      setupAlertElement();
+      setAlert("Note saved ✅");
+      jest.advanceTimersByTime(1000);
+      expect(document.querySelector(".header__alert")).not.toHaveClass(
+        "header__alert--show"
+      );
+    });
+
+    it("should keep the message visible before 1000ms has passed", () => {
+      setupAlertElement();
+      setAlert("Note saved ✅");
+      jest.advanceTimersByTime(999);
+      expect(document.querySelector(".header__alert")).toHaveTextContent(
+        "Note saved ✅"
+      );
+    });
+
+    it("should replace the message when called again before the timeout fires", () => {
+      setupAlertElement();
+      setAlert("First message");
+      jest.advanceTimersByTime(500);
+      setAlert("Second message");
+      expect(document.querySelector(".header__alert")).toHaveTextContent(
+        "Second message"
+      );
+    });
+
+    it("should not clear the second message when the first timeout would have fired", () => {
+      setupAlertElement();
+      setAlert("First message");
+      jest.advanceTimersByTime(500);
+      setAlert("Second message");
+      jest.advanceTimersByTime(500);
+      expect(document.querySelector(".header__alert")).toHaveTextContent(
+        "Second message"
+      );
+      expect(document.querySelector(".header__alert")).toHaveClass(
+        "header__alert--show"
+      );
+    });
   });
 
-  it("should clear alert after timeout", () => {
-    setAlert("Test message");
-
-    const alertH2 =
-      document.querySelector<HTMLHeadingElement>(".header__alert");
-    expect(alertH2?.textContent).toBe("Test message");
-
-    jest.advanceTimersByTime(1000);
-
-    expect(alertH2?.textContent).toBe("");
-    expect(alertH2).not.toHaveClass("header__alert--show");
-  });
-
-  it("should replace previous alert message", () => {
-    setAlert("First message");
-
-    const alertH2 =
-      document.querySelector<HTMLHeadingElement>(".header__alert");
-    expect(alertH2?.textContent).toBe("First message");
-
-    setAlert("Second message");
-
-    expect(alertH2?.textContent).toBe("Second message");
-  });
-
-  it("should not throw error when alert element does not exist", () => {
-    document.body.innerHTML = "";
-
-    expect(() => {
-      setAlert("Test message");
-    }).not.toThrow();
+  describe("when .header__alert element does not exist", () => {
+    it("should not throw", () => {
+      expect(() => {
+        setAlert("Test message");
+      }).not.toThrow();
+    });
   });
 });
 
 describe("clearAlert", () => {
   beforeEach(() => {
     jest.useFakeTimers();
-
-    const alertElement = document.createElement("h2");
-    alertElement.className = "header__alert";
-    document.body.appendChild(alertElement);
   });
 
   afterEach(() => {
     document.body.innerHTML = "";
-    jest.clearAllTimers();
     jest.useRealTimers();
   });
 
-  it("should clear alert message and class", () => {
-    setAlert("Test message");
-
-    const alertH2 =
-      document.querySelector<HTMLHeadingElement>(".header__alert");
-    expect(alertH2?.textContent).toBe("Test message");
-    expect(alertH2).toHaveClass("header__alert--show");
-
-    clearAlert();
-
-    expect(alertH2?.textContent).toBe("");
-    expect(alertH2).not.toHaveClass("header__alert--show");
-  });
-
-  it("should clear timeout when clearing alert", () => {
-    const clearTimeoutSpy = jest.spyOn(global, "clearTimeout");
-
-    setAlert("Test message");
-    clearAlert();
-
-    expect(clearTimeoutSpy).toHaveBeenCalled();
-
-    clearTimeoutSpy.mockRestore();
-  });
-
-  it("should not throw error when alert element does not exist", () => {
-    document.body.innerHTML = "";
-
-    expect(() => {
+  describe("when .header__alert element exists", () => {
+    it("should clear the text content", () => {
+      const alertH2 = setupAlertElement();
+      alertH2.textContent = "Some message";
       clearAlert();
-    }).not.toThrow();
+      expect(alertH2).toHaveTextContent("");
+    });
+
+    it("should remove the show class", () => {
+      const alertH2 = setupAlertElement();
+      alertH2.classList.add("header__alert--show");
+      clearAlert();
+      expect(alertH2).not.toHaveClass("header__alert--show");
+    });
+
+    it("should cancel an active timeout so the handler does not run", () => {
+      const alertH2 = setupAlertElement();
+      setAlert("Test message");
+      clearAlert();
+      alertH2.textContent = "Manual text";
+      jest.advanceTimersByTime(1000);
+      expect(alertH2).toHaveTextContent("Manual text");
+    });
+  });
+
+  describe("when .header__alert element does not exist", () => {
+    it("should not throw", () => {
+      expect(() => {
+        clearAlert();
+      }).not.toThrow();
+    });
   });
 });

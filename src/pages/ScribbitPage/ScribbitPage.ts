@@ -12,11 +12,11 @@ import { setAlert, clearAlert } from "@/helpers/setAlert";
 
 import { LOCAL_STORAGE_NOTES_KEY } from "@/constants/vars";
 
-import "@/pages/NotesPage/NotesPage.css";
+import "@/pages/ScribbitPage/ScribbitPage.css";
 
-const NotesPage = (): Page => {
+const ScribbitPage = (): Page => {
   const main = document.createElement("main") as Page;
-  main.className = "notes-page";
+  main.className = "scribbit-page";
 
   main.innerHTML = `
     <section class="notes">
@@ -172,4 +172,4 @@ const NotesPage = (): Page => {
   return main;
 };
 
-export default NotesPage;
+export default ScribbitPage;

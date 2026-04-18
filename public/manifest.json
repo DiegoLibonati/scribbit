@@ -1,7 +1,7 @@
 {
-  "name": "Notes",
-  "short_name": "Notes",
-  "description": "I made a web page that allows the user to save notes. With the notes you can add a new one, edit an existing one and delete a specific note. Every time the user performs an action an alert will pop up.",
+  "name": "Scribbit",
+  "short_name": "Scribbit",
+  "description": "Scribbit is a lightweight, browser-based note-taking application built with vanilla TypeScript. It runs entirely in the browser with no backend required — all notes are persisted in the browser's localStorage, meaning your data stays on your device and survives page refreshes without any server or account needed.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",

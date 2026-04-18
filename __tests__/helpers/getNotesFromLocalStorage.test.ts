@@ -1,36 +1,36 @@
 import { getNotesFromLocalStorage } from "@/helpers/getNotesFromLocalStorage";
 
-import { mockLocalStorage } from "@tests/__mocks__/localStorage.mock";
 import { mockNotes } from "@tests/__mocks__/notes.mock";
 
 describe("getNotesFromLocalStorage", () => {
-  beforeEach(() => {
-    mockLocalStorage.clear();
-  });
-
   afterEach(() => {
-    mockLocalStorage.clear();
+    localStorage.clear();
   });
 
-  it("should return notes from localStorage", () => {
-    mockLocalStorage.setItem("notes", JSON.stringify(mockNotes));
-
-    const result = getNotesFromLocalStorage();
-
-    expect(result).toEqual(mockNotes);
+  describe("when localStorage has no notes", () => {
+    it("should return an empty array", () => {
+      expect(getNotesFromLocalStorage()).toEqual([]);
+    });
   });
 
-  it("should return empty array when no notes in localStorage", () => {
-    const result = getNotesFromLocalStorage();
-
-    expect(result).toEqual([]);
+  describe("when localStorage has an empty notes array", () => {
+    it("should return an empty array", () => {
+      localStorage.setItem("notes", JSON.stringify([]));
+      expect(getNotesFromLocalStorage()).toEqual([]);
+    });
   });
 
-  it("should return empty array when localStorage has null", () => {
-    mockLocalStorage.setItem("notes", "null");
+  describe("when localStorage has notes", () => {
+    beforeEach(() => {
+      localStorage.setItem("notes", JSON.stringify(mockNotes));
+    });
 
-    const result = getNotesFromLocalStorage();
+    it("should return the stored notes", () => {
+      expect(getNotesFromLocalStorage()).toEqual(mockNotes);
+    });
 
-    expect(result).toEqual([]);
+    it("should return an array with the correct length", () => {
+      expect(getNotesFromLocalStorage()).toHaveLength(mockNotes.length);
+    });
   });
 });

@@ -1,4 +1,4 @@
-# Notes Page
+# Scribbit
 
 ## Educational Purpose
 
@@ -17,7 +17,18 @@ The application will open automatically at `http://localhost:3000`
 
 ## Description
 
-I made a web page that allows the user to save notes. With the notes you can add a new one, edit an existing one and delete a specific note. Every time the user performs an action an alert will pop up.
+**Scribbit** is a lightweight, browser-based note-taking application built with vanilla TypeScript. It runs entirely in the browser with no backend required — all notes are persisted in the browser's localStorage, meaning your data stays on your device and survives page refreshes without any server or account needed.
+
+The interface centers around a single page where all your notes live. Each note is displayed as a card with an editable text area. You can create as many notes as you want, and each one is independently manageable.
+
+**Core features:**
+
+- **Add notes:** Click the add button in the header to instantly create a new note with a default placeholder text. The note is saved to localStorage immediately.
+- **Edit notes:** Each note has an edit button that unlocks its text area, letting you freely modify the content. A "finish editing" button confirms the change and saves the updated text back to localStorage.
+- **Delete notes:** Each note has a delete button that removes it from both the screen and localStorage permanently.
+- **Feedback alerts:** Every action (create, edit, delete) triggers a brief alert message in the header, giving the user clear visual confirmation that their action was registered.
+
+The application is built as a pure TypeScript SPA with no framework. Components are plain functions that return DOM elements, state is driven entirely by localStorage, and the UI updates synchronously after every operation. The codebase follows strict TypeScript configuration and is covered by a Jest + Testing Library test suite.
 
 ## Technologies used
 
@@ -60,11 +71,7 @@ I made a web page that allows the user to save notes. With the notes you can add
 
 ## Portfolio Link
 
-[`https://www.diegolibonati.com.ar/#/project/Notes-Page`](https://www.diegolibonati.com.ar/#/project/Notes-Page)
-
-## Video
-
-https://github.com/DiegoLibonati/Notes-Page/assets/99032604/f32f74f0-54c2-452f-a5e3-18388fe7ea71
+[`https://www.diegolibonati.com.ar/#/project/scribbit`](https://www.diegolibonati.com.ar/#/project/scribbit)
 
 ## Testing
 
