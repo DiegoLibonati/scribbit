@@ -78,11 +78,16 @@ describe("ScribbitPage", () => {
       expect(stored).toHaveLength(1);
     });
 
-    it("should use the mocked uuid as the note id", async () => {
+    it("should use the generated uuid as the note id", async () => {
       const user = userEvent.setup();
       renderPage();
       await user.click(screen.getByRole("button", { name: "Add note" }));
-      expect(document.getElementById("mocked-uuid-1234")).toBeInTheDocument();
+      const stored = JSON.parse(localStorage.getItem("notes") ?? "[]") as {
+        id: string;
+        text: string;
+      }[];
+      expect(stored[0]).toBeDefined();
+      expect(document.getElementById(stored[0]!.id)).toBeInTheDocument();
     });
 
     it("should show a creation success alert", async () => {
