@@ -87,16 +87,18 @@ describe("ScribbitPage", () => {
         text: string;
       }[];
       expect(stored[0]).toBeDefined();
-      expect(document.getElementById(stored[0]!.id)).toBeInTheDocument();
+      expect(
+        document.querySelector<HTMLDivElement>(`#${CSS.escape(stored[0]!.id)}`)
+      ).toBeInTheDocument();
     });
 
     it("should show a creation success alert", async () => {
       const user = userEvent.setup();
       renderPage();
       await user.click(screen.getByRole("button", { name: "Add note" }));
-      expect(document.querySelector(".header__alert")).toHaveTextContent(
-        "1 note has been successfully created ✅"
-      );
+      expect(
+        document.querySelector<HTMLHeadingElement>(".header__alert")
+      ).toHaveTextContent("1 note has been successfully created ✅");
     });
   });
 
@@ -159,9 +161,9 @@ describe("ScribbitPage", () => {
       renderPage();
       await user.click(screen.getByRole("button", { name: "Edit note" }));
       await user.click(screen.getByRole("button", { name: "Finish editing" }));
-      expect(document.querySelector(".header__alert")).toHaveTextContent(
-        "1 note has been successfully edited ✅"
-      );
+      expect(
+        document.querySelector<HTMLHeadingElement>(".header__alert")
+      ).toHaveTextContent("1 note has been successfully edited ✅");
     });
   });
 
@@ -174,7 +176,9 @@ describe("ScribbitPage", () => {
       const user = userEvent.setup();
       renderPage();
       await user.click(screen.getByRole("button", { name: "Delete note" }));
-      expect(document.getElementById(mockNote!.id)).not.toBeInTheDocument();
+      expect(
+        document.querySelector<HTMLDivElement>(`#${CSS.escape(mockNote!.id)}`)
+      ).not.toBeInTheDocument();
     });
 
     it("should update localStorage to remove the deleted note", async () => {
@@ -191,9 +195,9 @@ describe("ScribbitPage", () => {
       const user = userEvent.setup();
       renderPage();
       await user.click(screen.getByRole("button", { name: "Delete note" }));
-      expect(document.querySelector(".header__alert")).toHaveTextContent(
-        "1 note has been successfully deleted ✅"
-      );
+      expect(
+        document.querySelector<HTMLHeadingElement>(".header__alert")
+      ).toHaveTextContent("1 note has been successfully deleted ✅");
     });
   });
 

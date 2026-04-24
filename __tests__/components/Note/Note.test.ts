@@ -31,7 +31,9 @@ describe("Note", () => {
   describe("rendering", () => {
     it("should render with the correct id", () => {
       renderComponent();
-      expect(document.getElementById("note-test-id")).toBeInTheDocument();
+      expect(
+        document.querySelector<HTMLDivElement>("#note-test-id")
+      ).toBeInTheDocument();
     });
 
     it("should render with the note class", () => {
