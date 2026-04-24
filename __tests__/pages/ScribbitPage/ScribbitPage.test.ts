@@ -26,7 +26,7 @@ describe("ScribbitPage", () => {
   afterEach(() => {
     document.body.innerHTML = "";
     localStorage.clear();
-    jest.clearAllMocks();
+    jest.restoreAllMocks();
   });
 
   describe("rendering", () => {

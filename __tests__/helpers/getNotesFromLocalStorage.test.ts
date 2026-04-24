@@ -5,6 +5,7 @@ import { mockNotes } from "@tests/__mocks__/notes.mock";
 describe("getNotesFromLocalStorage", () => {
   afterEach(() => {
     localStorage.clear();
+    jest.clearAllMocks();
   });
 
   describe("when localStorage has no notes", () => {
