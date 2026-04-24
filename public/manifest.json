@@ -1,7 +1,7 @@
 {
   "name": "Scribbit",
   "short_name": "Scribbit",
-  "description": "Scribbit is a lightweight, browser-based note-taking application built with vanilla TypeScript. It runs entirely in the browser with no backend required — all notes are persisted in the browser's localStorage, meaning your data stays on your device and survives page refreshes without any server or account needed.",
+  "description": "Scribbit is a lightweight, browser-based note-taking application built with vanilla TypeScript.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
