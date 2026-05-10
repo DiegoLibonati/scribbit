@@ -6,15 +6,6 @@ This project was created primarily for **educational and learning purposes**.
 While it is well-structured and could technically be used in production, it is **not intended for commercialization**.  
 The main goal is to explore and demonstrate best practices, patterns, and technologies in software development.
 
-## Getting Started
-
-1. Clone the repository
-2. Navigate to the project folder
-3. Execute: `npm install`
-4. Execute: `npm run dev`
-
-The application will open automatically at `http://localhost:3000`
-
 ## Description
 
 **Scribbit** is a lightweight, browser-based note-taking application built with vanilla TypeScript. It runs entirely in the browser with no backend required — all notes are persisted in the browser's localStorage, meaning your data stays on your device and survives page refreshes without any server or account needed.
@@ -32,12 +23,16 @@ The application is built as a pure TypeScript SPA with no framework. Components 
 
 ## Technologies used
 
+The stack is intentionally minimal — no framework, no backend — to keep the focus on vanilla TypeScript and modern tooling.
+
 1. Typescript
 2. CSS3
 3. HTML5
 4. Vite
 
 ## Libraries used
+
+These are the runtime and development dependencies pulled from `package.json`.
 
 #### Dependencies
 
@@ -70,11 +65,20 @@ The application is built as a pure TypeScript SPA with no framework. Components 
 "vite": "^7.1.6"
 ```
 
-## Portfolio Link
+## Getting Started
 
-[`https://www.diegolibonati.com.ar/#/project/scribbit`](https://www.diegolibonati.com.ar/#/project/scribbit)
+With the stack and dependencies known, you can now spin up the project locally.
+
+1. Clone the repository
+2. Navigate to the project folder
+3. Execute: `npm install`
+4. Execute: `npm run dev`
+
+The application will open automatically at `http://localhost:3000`
 
 ## Testing
+
+Once the app runs locally, you can verify behavior with the automated test suite (Jest + Testing Library, jsdom environment).
 
 1. Navigate to the project folder
 2. Execute: `npm test`
@@ -85,7 +89,9 @@ For coverage report:
 npm run test:coverage
 ```
 
-## Security
+## Security Audit
+
+Beyond functional tests, you can also audit the dependency tree for known vulnerabilities.
 
 ### npm audit
 
@@ -98,3 +104,7 @@ npm audit
 ## Known Issues
 
 None at the moment.
+
+## Portfolio Link
+
+[`https://www.diegolibonati.com.ar/#/project/scribbit`](https://www.diegolibonati.com.ar/#/project/scribbit)
