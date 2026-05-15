@@ -50,5 +50,10 @@ describe("getLocalStorage", () => {
     it("should return null for an empty string key", () => {
       expect(getLocalStorage("")).toBeNull();
     });
+
+    it("should return null when the stored value is invalid JSON", () => {
+      localStorage.setItem("key", "invalid-json{");
+      expect(getLocalStorage("key")).toBeNull();
+    });
   });
 });

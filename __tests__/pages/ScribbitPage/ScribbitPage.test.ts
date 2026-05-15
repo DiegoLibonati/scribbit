@@ -199,6 +199,16 @@ describe("ScribbitPage", () => {
         document.querySelector<HTMLHeadingElement>(".header__alert")
       ).toHaveTextContent("1 note has been successfully deleted ✅");
     });
+
+    it("should remove the finish edit button when deleting a note that is being edited", async () => {
+      const user = userEvent.setup();
+      renderPage();
+      await user.click(screen.getByRole("button", { name: "Edit note" }));
+      await user.click(screen.getByRole("button", { name: "Delete note" }));
+      expect(
+        screen.queryByRole("button", { name: "Finish editing" })
+      ).not.toBeInTheDocument();
+    });
   });
 
   describe("cleanup", () => {
@@ -215,6 +225,29 @@ describe("ScribbitPage", () => {
     it("should not throw when called", () => {
       const page = renderPage();
       expect(() => page.cleanup?.()).not.toThrow();
+    });
+
+    it("should remove event listeners from active notes during cleanup", async () => {
+      localStorage.setItem("notes", JSON.stringify([mockNote]));
+      const user = userEvent.setup();
+      const page = renderPage();
+      page.cleanup?.();
+      await user.click(screen.getByRole("button", { name: "Delete note" }));
+      const stored = JSON.parse(
+        localStorage.getItem("notes") ?? "[]"
+      ) as unknown[];
+      expect(stored).toHaveLength(1);
+    });
+
+    it("should remove active finish edit buttons during cleanup", async () => {
+      localStorage.setItem("notes", JSON.stringify([mockNote]));
+      const user = userEvent.setup();
+      const page = renderPage();
+      await user.click(screen.getByRole("button", { name: "Edit note" }));
+      page.cleanup?.();
+      expect(
+        screen.queryByRole("button", { name: "Finish editing" })
+      ).not.toBeInTheDocument();
     });
   });
 });
