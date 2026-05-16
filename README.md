@@ -89,6 +89,54 @@ For coverage report:
 npm run test:coverage
 ```
 
+## Continuous Integration
+
+The repository ships with a **GitHub Actions** pipeline defined in [`.github/workflows/ci.yml`](.github/workflows/ci.yml). It runs automatically on every `push` and `pull_request` targeting the `main` branch.
+
+### Pipeline overview
+
+```
+                      ┌─── PR or push to main ───┐
+                      ▼                          ▼
+┌──────────────────────┐  ┌──────────────────┐  ┌──────────────────┐
+│   lint-and-audit     │─▶│     testing      │─▶│      build       │
+│  eslint · tsc check  │  │  jest (jsdom)    │  │  tsc + vite      │
+└──────────────────────┘  └──────────────────┘  └──────────────────┘
+```
+
+Each job runs on `ubuntu-latest`, checks out the repository, installs Node.js using the version pinned in [`.nvmrc`](.nvmrc), restores the npm cache, and runs `npm ci` before executing its specific step.
+
+### Validation jobs (run on every PR and push)
+
+1. **`lint-and-audit`** — runs `npm run lint` (ESLint with the project's TypeScript ruleset) and `npm run type-check` (`tsc --noEmit`). Catches style violations and type errors before anything else runs.
+2. **`testing`** — depends on `lint-and-audit`. Runs `npm run test`, which executes the full Jest suite in the `jest-environment-jsdom` environment.
+3. **`build`** — depends on `testing`. Runs `npm run build`, which type-checks the project with `tsc` and then bundles the production assets with Vite. Acts as a smoke test that the app compiles cleanly.
+
+Jobs run sequentially via the `needs:` chain, so a failure short-circuits the pipeline: a lint error stops the tests from running, and a test failure stops the build attempt.
+
+### Where the build outputs live
+
+| Output                                           | Location                                     |
+| ------------------------------------------------ | -------------------------------------------- |
+| Validation logs (lint, type-check, tests, build) | **Actions** tab on GitHub                    |
+| Vite production bundle                           | Ephemeral, inside the runner (not published) |
+
+> **Note:** there is no release pipeline yet — the `build` job only verifies that the project compiles. No artifacts are uploaded and no GitHub Releases are created.
+
+### Running the same checks locally
+
+```bash
+# lint-and-audit
+npm run lint
+npm run type-check
+
+# testing
+npm run test
+
+# build
+npm run build
+```
+
 ## Security Audit
 
 Beyond functional tests, you can also audit the dependency tree for known vulnerabilities.
